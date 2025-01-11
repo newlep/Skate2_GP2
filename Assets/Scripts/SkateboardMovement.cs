@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkateboardMovement : MonoBehaviour
@@ -36,27 +34,30 @@ public class SkateboardMovement : MonoBehaviour
 
     private void HandleMovement()
     {
+        // Forward and backward movement
         if (Input.GetKey(KeyCode.W))
         {
             rb.AddForce(transform.forward * acceleration, ForceMode.Acceleration);
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            if (rb.velocity.magnitude > 0.1f)
+            if (rb.velocity.magnitude > 0.1f) // Smooth deceleration
             {
                 rb.AddForce(-rb.velocity.normalized * deceleration, ForceMode.Acceleration);
             }
             else
             {
-                rb.velocity = Vector3.zero;
+                rb.velocity = Vector3.zero; // Stop completely
             }
         }
 
+        // Clamp the maximum speed
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
     }
 
     private void HandleTurning()
     {
+        // Turning left or right
         float turnInput = 0f;
 
         if (Input.GetKey(KeyCode.A))
@@ -78,21 +79,25 @@ public class SkateboardMovement : MonoBehaviour
     private void HandleJump()
     {
         // Allow jump only if the player is moving and grounded
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && rb.velocity.magnitude > 0.1f && !hasJumped)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && rb.velocity.magnitude > 0.1f)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isGrounded = false;
-            hasJumped = true; // Ensure the jump happens only once while in the air
+            isGrounded = false; // Player is no longer grounded
+            hasJumped = true;   // Track the jump
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         // Reset grounded state when touching the ground
-        if (collision.contacts.Length > 0 && collision.gameObject.CompareTag("Ground"))
+        foreach (ContactPoint contact in collision.contacts)
         {
-            isGrounded = true;
-            hasJumped = false; // Allow jumping again
+            if (contact.normal.y > 0.5f) // Check if collision is from below
+            {
+                isGrounded = true; // Allow jumping again
+                hasJumped = false; // Reset jump flag
+                break;
+            }
         }
     }
 }

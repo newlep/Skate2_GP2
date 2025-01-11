@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 4137800624874638430}
   - component: {fileID: 8684406904111479435}
   - component: {fileID: 7415202345767358337}
+  - component: {fileID: 3650441671955281115}
   m_Layer: 0
-  m_Name: PowerUp_SpeedBoost
+  m_Name: PowerUp_JumpBoost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,3 +106,17 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3650441671955281115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3154305328238414591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 517e86780e1f18e4c8c643add854d2bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpType: 1
+  effectDuration: 5
